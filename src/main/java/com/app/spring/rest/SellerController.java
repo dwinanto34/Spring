@@ -31,4 +31,28 @@ public class SellerController {
     public String retailSeller() {
         return retailSellerService.getSellerType();
     }
+
+//    Custom config bean
+
+    private SellerService wholesaleSellerService;
+    @Autowired
+    public void setWholesaleSellerService(@Qualifier("wholesaleSellerServiceImpl") SellerService wholesaleSellerService) {
+        this.wholesaleSellerService = wholesaleSellerService;
+    }
+
+    @GetMapping("/seller-wholesale")
+    public String wholesaleSeller() {
+        return wholesaleSellerService.getSellerType();
+    }
+
+    private SellerService customWholesaleSellerService;
+    @Autowired
+    public void setCustomWholesaleSellerService(@Qualifier("customWholesaleSellerServiceImpl") SellerService customWholesaleSellerService) {
+        this.customWholesaleSellerService = customWholesaleSellerService;
+    }
+
+    @GetMapping("/seller-custom-wholesale")
+    public String customWholesaleSeller() {
+        return customWholesaleSellerService.getSellerType();
+    }
 }
