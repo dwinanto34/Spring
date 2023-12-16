@@ -72,12 +72,12 @@ public class ProductController {
     @PutMapping()
     public String updateProduct(@RequestBody Product product) {
         productService.update(product);
-        return "Saved product successfully";
+        return "Updated product successfully";
     }
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable("id") String id) {
         productService.delete(id);
-        return "Saved product successfully";
+        return "Deleted product successfully";
     }
 }
