@@ -1,7 +1,6 @@
-package com.app.spring.implementation;
+package com.app.springcore.implementation;
 
-import com.app.spring.service.AnimalService;
-import org.springframework.stereotype.Component;
+import com.app.springcore.service.AnimalService;
 import org.springframework.stereotype.Service;
 
 @Service

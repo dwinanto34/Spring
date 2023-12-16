@@ -1,6 +1,6 @@
-package com.app.spring.implementation;
+package com.app.springcore.implementation;
 
-import com.app.spring.service.SellerService;
+import com.app.springcore.service.SellerService;
 
 // Here, I don't have @Service or @Component
 //

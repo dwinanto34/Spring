@@ -1,12 +1,7 @@
-package com.app.spring.implementation;
+package com.app.springcore.implementation;
 
-import com.app.spring.service.SellerService;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Scope;
+import com.app.springcore.service.SellerService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 // This service is marked as @Lazy, indicating that it will be lazily initialized.

@@ -1,6 +1,6 @@
-package com.app.spring.rest;
+package com.app.springcore.rest;
 
-import com.app.spring.service.SellerService;
+import com.app.springcore.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;

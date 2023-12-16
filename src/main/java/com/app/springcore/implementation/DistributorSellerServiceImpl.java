@@ -1,9 +1,8 @@
-package com.app.spring.implementation;
+package com.app.springcore.implementation;
 
-import com.app.spring.service.SellerService;
+import com.app.springcore.service.SellerService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package com.app.spring.config;
+package com.app.springcore.config;
 
-import com.app.spring.implementation.WholesalerSellerServiceImpl;
-import com.app.spring.service.SellerService;
+import com.app.springcore.implementation.WholesalerSellerServiceImpl;
+import com.app.springcore.service.SellerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,6 +1,6 @@
-package com.app.spring.rest;
+package com.app.springcore.rest;
 
-import com.app.spring.service.AnimalService;
+import com.app.springcore.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
