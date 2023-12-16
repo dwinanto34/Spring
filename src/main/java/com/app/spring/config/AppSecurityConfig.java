@@ -68,14 +68,19 @@ public class AppSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        To enable security
+//        http.authorizeRequests(authorizeRequests ->
+//                authorizeRequests
+//                        .requestMatchers(HttpMethod.GET, "/products").hasRole("EMPLOYEE")
+//                        .requestMatchers(HttpMethod.GET, "/products/**").hasRole("EMPLOYEE")
+//                        .requestMatchers(HttpMethod.PUT, "/products").hasRole("SUPERVISOR")
+//                        .requestMatchers(HttpMethod.POST, "/products").hasRole("SUPERVISOR")
+//                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("MANAGER")
+//                        .anyRequest().denyAll());
+
+//        To disable security and permit all endpoints
         http.authorizeRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers(HttpMethod.GET, "/products").hasRole("EMPLOYEE")
-                        .requestMatchers(HttpMethod.GET, "/products/**").hasRole("EMPLOYEE")
-                        .requestMatchers(HttpMethod.PUT, "/products").hasRole("SUPERVISOR")
-                        .requestMatchers(HttpMethod.POST, "/products").hasRole("SUPERVISOR")
-                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("MANAGER")
-                        .anyRequest().denyAll());
+                authorizeRequests.anyRequest().permitAll());
 
         http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
