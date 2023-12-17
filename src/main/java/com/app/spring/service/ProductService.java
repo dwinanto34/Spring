@@ -1,17 +1,18 @@
 package com.app.spring.service;
 
-import com.app.spring.entity.Product;
+import com.app.spring.model.request.ProductRequest;
+import com.app.spring.model.response.ProductResponse;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findAll();
+    List<ProductResponse> findAll();
 
-    Product findById(String id);
+    ProductResponse findById(String id);
 
-    void save(Product product);
+    void save(ProductRequest ProductRequest);
 
-    void update(Product product);
+    void update(String id, ProductRequest ProductRequest);
 
     void delete(String id);
 }

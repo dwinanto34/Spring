@@ -1,20 +1,22 @@
 package com.app.spring.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+// toString() method caused StackOVerFlowError due to cyclic dependency
+//@Data
+@Getter
+@Setter
 @Table(name = Product.TABLE_NAME)
 public class Product {
     public static final String TABLE_NAME = "products";
@@ -42,4 +44,15 @@ public class Product {
 
     @Column(name = Product.AVAILABLE_STOCK)
     private Integer availableStock;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
+
+    @ManyToMany
+    @JoinTable(
+        name = "order_items",
+        joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    )
+    private List<Order> orders;
 }

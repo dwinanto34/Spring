@@ -1,7 +1,7 @@
 package com.app.spring.advice;
 
-import com.app.spring.model.OrderManagementErrorResponse;
-import com.app.spring.model.OrderManagementNotFoundException;
+import com.app.spring.model.exception.OrderManagementErrorResponse;
+import com.app.spring.model.exception.OrderManagementNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

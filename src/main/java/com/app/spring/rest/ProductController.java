@@ -1,17 +1,15 @@
 package com.app.spring.rest;
 
-import com.app.spring.dao.ProductDao;
-import com.app.spring.entity.Product;
-import com.app.spring.model.OrderManagementErrorResponse;
-import com.app.spring.model.OrderManagementNotFoundException;
+import com.app.spring.model.exception.OrderManagementErrorResponse;
+import com.app.spring.model.exception.OrderManagementNotFoundException;
+import com.app.spring.model.request.ProductRequest;
+import com.app.spring.model.response.ProductResponse;
 import com.app.spring.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -49,29 +47,32 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getProducts() {
+    public List<ProductResponse> getProducts() {
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable("id") String id) {
-        Product product = productService.findById(id);
-        if (product == null) {
+    public ProductResponse getProduct(@PathVariable("id") String id) {
+        ProductResponse productResponse = productService.findById(id);
+        if (productResponse == null) {
             throw new OrderManagementNotFoundException("Product not found");
         }
 
-        return product;
+        return productResponse;
     }
 
     @PostMapping()
-    public String saveProduct(@RequestBody Product product) {
-        productService.save(product);
+    public String saveProduct(@RequestBody ProductRequest productRequest) {
+        productService.save(productRequest);
         return "Saved product successfully";
     }
 
-    @PutMapping()
-    public String updateProduct(@RequestBody Product product) {
-        productService.update(product);
+    @PutMapping("/{id}")
+    public String updateProduct(
+            @PathVariable("id") String id,
+            @RequestBody ProductRequest productRequest
+    ) {
+        productService.update(id, productRequest);
         return "Updated product successfully";
     }
 

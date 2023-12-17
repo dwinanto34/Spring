@@ -1,4 +1,4 @@
-package com.app.spring.model;
+package com.app.spring.model.exception;
 
 public class OrderManagementNotFoundException extends RuntimeException {
     public OrderManagementNotFoundException(String message) {

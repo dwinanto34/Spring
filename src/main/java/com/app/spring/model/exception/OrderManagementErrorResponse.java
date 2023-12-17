@@ -1,4 +1,4 @@
-package com.app.spring.model;
+package com.app.spring.model.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
