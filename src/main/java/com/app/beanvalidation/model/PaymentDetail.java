@@ -61,4 +61,9 @@ public class PaymentDetail {
     public Long calculateFee() {
         return amount + 1;
     }
+
+    @Valid
+    public PaymentDetail(@NotBlank(message = "Constructor argument for order ID cannot be blank") String orderId) {
+        this.orderId = orderId;
+    }
 }

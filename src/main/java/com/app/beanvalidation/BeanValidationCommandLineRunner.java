@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -36,7 +37,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // sequenceGroupDemo(validator);
         // conversionGroupDemo(validator);
         // payloadDemo(validator);
-        methodValidationDemo(validator);
+        // methodValidationDemo(validator);
+        constructorValidationDemo(validator);
     }
 
     private Validator getValidator() {
@@ -208,6 +210,30 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // expect 1 violation because the fee response is 2, which is not between 10 and 100
         constraintViolationSet = executableValidator
                 .validateReturnValue(paymentDetail, method, fee);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void constructorValidationDemo(Validator validator) throws NoSuchMethodException {
+        ExecutableValidator executableValidator = validator.forExecutables();
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet;
+
+        // 1. Validate the arguments in constructor
+        Constructor<PaymentDetail> paymentDetailConstructor = PaymentDetail.class
+                .getConstructor(String.class);
+
+        // expect 1 violation because the order ID is an empty string.
+        constraintViolationSet = executableValidator
+                .validateConstructorParameters(paymentDetailConstructor, new Object[]{""});
+        printConstraintViolations(constraintViolationSet);
+
+        // 2. Validate the return value in constructor
+        PaymentDetail paymentDetail = new PaymentDetail("");
+        Constructor<PaymentDetail> constructor = PaymentDetail.class
+                .getConstructor(String.class);
+
+        // expect few validations because the bank detail, the order amount, and the order ID is null
+        constraintViolationSet = executableValidator
+                .validateConstructorReturnValue(constructor, paymentDetail);
         printConstraintViolations(constraintViolationSet);
     }
 }
