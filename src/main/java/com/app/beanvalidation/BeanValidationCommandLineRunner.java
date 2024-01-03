@@ -43,7 +43,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // customConstraintDemo(validator);
         // constraintCompositionDemo(validator);
         // classLevelConstraint(validator);
-        crossParametersConstraint(validator);
+        // crossParametersConstraint(validator);
+        customValidatorContext(validator);
     }
 
     private Validator getValidator() {
@@ -272,6 +273,15 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         Constructor<Account> accountConstructor = Account.class.getConstructor(String.class, String.class, String.class);
         // expect 1 violation because the password does not match retype password
         // the validation happens on constructor level
+        Set<ConstraintViolation<Account>> constraintViolationSet = executableValidator
+                .validateConstructorParameters(accountConstructor, new Object[]{"username", "password", "passwordnotmatch"});
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void customValidatorContext(Validator validator) throws NoSuchMethodException {
+        ExecutableValidator executableValidator = validator.forExecutables();
+        Constructor<Account> accountConstructor = Account.class.getConstructor(String.class, String.class, String.class);
+        // expect custom validator context because we just disabled the default one, and build a custom one
         Set<ConstraintViolation<Account>> constraintViolationSet = executableValidator
                 .validateConstructorParameters(accountConstructor, new Object[]{"username", "password", "passwordnotmatch"});
         printConstraintViolations(constraintViolationSet);

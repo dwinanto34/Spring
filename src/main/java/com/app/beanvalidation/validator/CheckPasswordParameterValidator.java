@@ -28,6 +28,23 @@ public class CheckPasswordParameterValidator implements ConstraintValidator<Chec
             return true;
         }
 
-        return password.equals(retypePassword);
+        boolean isValid = password.equals(retypePassword);
+
+        if (!isValid) {
+            // Custom the context
+            // Need to disable the default constraint violation
+            constraintValidatorContext.disableDefaultConstraintViolation();
+
+            // Build custom constraint violation
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Password is different with retypePassword")
+                    .addPropertyNode("password")
+                    .addConstraintViolation();
+
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Retype password is different with password")
+                    .addPropertyNode("retypePassword")
+                    .addConstraintViolation();
+        }
+
+        return isValid;
     }
 }
