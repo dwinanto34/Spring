@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Component
@@ -44,7 +45,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // constraintCompositionDemo(validator);
         // classLevelConstraint(validator);
         // crossParametersConstraint(validator);
-        customValidatorContext(validator);
+        // customValidatorContext(validator);
+        containerDataDemo(validator);
     }
 
     private Validator getValidator() {
@@ -284,6 +286,16 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // expect custom validator context because we just disabled the default one, and build a custom one
         Set<ConstraintViolation<Account>> constraintViolationSet = executableValidator
                 .validateConstructorParameters(accountConstructor, new Object[]{"username", "password", "passwordnotmatch"});
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void containerDataDemo(Validator validator) {
+        // Container data: Optional, List, Map, Set, Collection, etc
+        Account account = new Account("username", "password", "password");
+        account.setPasswordHistories(new ArrayList<>());
+        account.getPasswordHistories().add("");
+
+        Set<ConstraintViolation<Account>> constraintViolationSet = validator.validate(account);
         printConstraintViolations(constraintViolationSet);
     }
 }
