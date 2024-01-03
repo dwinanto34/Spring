@@ -1,5 +1,10 @@
 package com.app.beanvalidation;
 
+import com.app.beanvalidation.container.*;
+import com.app.beanvalidation.extractor.DataIntegerValueExtractor;
+import com.app.beanvalidation.extractor.DataValueExtractor;
+import com.app.beanvalidation.extractor.EntryValueExtractorKey;
+import com.app.beanvalidation.extractor.EntryValueExtractorValue;
 import com.app.beanvalidation.groups.BankTransferPaymentGroup;
 import com.app.beanvalidation.groups.CreditCardPaymentGroup;
 import com.app.beanvalidation.groups.PaymentGroup;
@@ -46,7 +51,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // classLevelConstraint(validator);
         // crossParametersConstraint(validator);
         // customValidatorContext(validator);
-        containerDataDemo(validator);
+        // containerDataDemo(validator);
+        valueExtractionDemo();
     }
 
     private Validator getValidator() {
@@ -296,6 +302,58 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         account.getPasswordHistories().add("");
 
         Set<ConstraintViolation<Account>> constraintViolationSet = validator.validate(account);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void valueExtractionDemo() {
+        // Extract the value inside container so that the value could be validated
+
+        ValidatorFactory valueExtractorFactory;
+        Validator validator;
+        Set<ConstraintViolation<Object>> constraintViolationSet;
+
+        // 1. Single generic type
+        valueExtractorFactory = Validation.byDefaultProvider()
+                .configure()
+                .addValueExtractor(new DataValueExtractor())
+                .buildValidatorFactory();
+        validator = valueExtractorFactory.getValidator();
+
+        SampleData sampleData = new SampleData();
+        sampleData.setData(new Data<>());
+        sampleData.getData().setData("Hi");
+
+        // If we don't use value extractor, this is the exception that we should expect
+        // 2023-12-30T22:36:14.540+09:00  WARN 62532 --- [nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [jakarta.validation.ConstraintDeclarationException: HV000197: No value extractor found for type parameter 'T' of type com.app.bean_validation.container.Data.]
+        // Set<ConstraintViolation<SampleData>> constraintViolationSet = validator.validate(sampleData);
+
+        // Here is the implementation using value extractor
+        constraintViolationSet = validator.validate(sampleData);
+        printConstraintViolations(constraintViolationSet);
+
+        // 2. Multiple generic type
+        valueExtractorFactory = Validation.byDefaultProvider()
+                .configure()
+                .addValueExtractor(new EntryValueExtractorKey())
+                .addValueExtractor(new EntryValueExtractorValue())
+                .buildValidatorFactory();
+        validator = valueExtractorFactory.getValidator();
+
+        SampleEntry sampleEntry = new SampleEntry();
+        sampleEntry.setEntry(new Entry<>());
+        constraintViolationSet = validator.validate(sampleEntry);
+        printConstraintViolations(constraintViolationSet);
+
+        // 3. For non-generic type
+        valueExtractorFactory = Validation.byDefaultProvider()
+                .configure()
+                .addValueExtractor(new DataIntegerValueExtractor())
+                .buildValidatorFactory();
+        validator = valueExtractorFactory.getValidator();
+
+        DataInteger dataInteger = new DataInteger();
+        dataInteger.setData(1);
+        constraintViolationSet = validator.validate(dataInteger);
         printConstraintViolations(constraintViolationSet);
     }
 }
