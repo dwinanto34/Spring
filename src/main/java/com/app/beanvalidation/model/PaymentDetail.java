@@ -32,7 +32,11 @@ public class PaymentDetail {
     // Like Range, CreditCardNumber, etc
     // https://docs.jboss.org/hibernate/stable/validator/api/org/hibernate/validator/constraints/package-summary.html
     @NotNull(groups = {Default.class}, message = "Order amount cannot be null")
-    @Range(min = 100, max = 10000, message = "Amount must be between 100 and 10,000")
+    // @Range(min = 100, max = 10000, message = "Amount must be between 100 and 10,000")
+    // There are 2 ways to get the message interpolation for this constraint:
+    // 1. Retrieve messages from the parameters, such as the 'min' and 'max' variables.
+    // 2. Retrieve messages from the ValidationMessages.properties}file using a custom key.
+    @Range(min = 100, max = 10000, message = "{order.amount.must.between} {min} and {max}")
     private Long amount;
 
     // We could also specify a custom constraint group class

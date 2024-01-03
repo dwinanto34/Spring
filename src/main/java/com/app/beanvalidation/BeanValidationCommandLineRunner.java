@@ -38,7 +38,7 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // conversionGroupDemo(validator);
         // payloadDemo(validator);
         // methodValidationDemo(validator);
-        constructorValidationDemo(validator);
+        // constructorValidationDemo(validator);
     }
 
     private Validator getValidator() {
