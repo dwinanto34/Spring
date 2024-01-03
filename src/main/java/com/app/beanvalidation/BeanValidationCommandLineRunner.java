@@ -15,6 +15,8 @@ import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
 import jakarta.validation.*;
 import jakarta.validation.executable.ExecutableValidator;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -53,7 +55,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // customValidatorContext(validator);
         // containerDataDemo(validator);
         // valueExtractionDemo();
-        constraintViolationException(validator);
+        // constraintViolationException(validator);
+        metadata(validator);
     }
 
     private Validator getValidator() {
@@ -370,5 +373,18 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         } catch (ConstraintViolationException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void metadata(Validator validator) {
+        // Demonstrates how to retrieve metadata information from a Validator related to constraints on a class.
+        // This method prints information about constrained constructors and properties of the PaymentDetail} class,
+        // along with details of the associated constraints using the {@code BeanDescriptor}.
+        BeanDescriptor beanDescriptor = validator.getConstraintsForClass(PaymentDetail.class);
+        System.out.println(beanDescriptor.getConstrainedConstructors());
+        beanDescriptor.getConstrainedProperties().forEach(propertyDescriptor -> {
+            for (ConstraintDescriptor<?> constraintDescriptor : propertyDescriptor.getConstraintDescriptors()) {
+                System.out.println(constraintDescriptor);
+            }
+        });
     }
 }
