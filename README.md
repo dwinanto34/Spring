@@ -66,3 +66,25 @@ This repository serves as a comprehensive demonstration of key features and func
 
 1. [**Implement Various AOP Pointcuts:**](https://github.com/dwinanto34/Spring/commit/8c6f5983f752902d6637823aff55c37f7b1736d8)
    - Implement various AOP pointcuts (before, after returning, after throwing, around).
+
+## Java Bean Validation
+
+1. [**Constraint Violation**](https://github.com/dwinanto34/Spring/commit/b154a85f592d781d37d693560959e8a9cd6ff59a)
+2. [**Valid Annotation for Nested Object**](https://github.com/dwinanto34/Spring/commit/8ff5c5ab1c83c468a8fb0e5f4a1f12d92ec6836b)
+3. **Group Functions:**
+   - [**Group Constraint Implementation**](https://github.com/dwinanto34/Spring/commit/6c107f1d7b48c14304df37dd1e8f6141df3a411c)
+   - [**Group Sequence Implementation**](https://github.com/dwinanto34/Spring/commit/241d45d4113544a25f00deffb68c1945f0148a4f)
+   - [**Group Conversion Implementation**](https://github.com/dwinanto34/Spring/commit/363ea771547beddfe6ebba53c4048938a48558b2)
+4. [**Payload Usage**](https://github.com/dwinanto34/Spring/commit/f9a827999a7a82057c903adcd1f7030110c147bd)
+5. [**Method-Level Validation**](https://github.com/dwinanto34/Spring/commit/f7378f47c5689e45b7e435784c6aba94cc5ce6e3)
+6. [**Constructor Validation Implementation**](https://github.com/dwinanto34/Spring/commit/8974140b482431d05b5cfa06137424c3065939ca)
+7. [**Message Interpolation Usage**](https://github.com/dwinanto34/Spring/commit/f78f9ba04f78481521744750ee18a43b22887a5e)
+8. [**Build Custom Constraint**](https://github.com/dwinanto34/Spring/commit/f3e45f1662b7f154928731a4b2ea6a0fee12784c)
+9. [**Constraint Composition**](https://github.com/dwinanto34/Spring/commit/17622ece5a03bd217d872a6dbfb8ad0b00467082)
+10. [**Class-Level Constraint Implementation**](https://github.com/dwinanto34/Spring/commit/9409c6395635fca1019e4c5828430471035a46ae)
+11. [**Cross-Parameter Constraint Implementation**](https://github.com/dwinanto34/Spring/commit/761a8f83bdc0fc1b0a185bbafc7b44fbfcb74f3d)
+12. [**Custom Validator Context Usage**](https://github.com/dwinanto34/Spring/commit/39045e9af2ce519f9a56707c0193b9b17cd0bda1)
+13. [**Container Data Validation Implementation**](https://github.com/dwinanto34/Spring/commit/5d2e00b31ff2a5ccef2c03ab42ad168c60810399)
+14. [**Value Extractor Implementation**](https://github.com/dwinanto34/Spring/commit/07aac40b1be7008c35d0d91bf318ef4c09337670)
+15. [**Constraint Violation Exception Handling**](https://github.com/dwinanto34/Spring/commit/ffe2cf0fd979a94daeb1d74fab54c89e10808d9c)
+16. [**Metadata Usage**](https://github.com/dwinanto34/Spring/commit/5a46480bc6c928eccfe6131a71a8fa2154bf80cb)
