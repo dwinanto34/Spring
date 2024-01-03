@@ -3,6 +3,7 @@ package com.app.beanvalidation;
 import com.app.beanvalidation.groups.BankTransferPaymentGroup;
 import com.app.beanvalidation.groups.CreditCardPaymentGroup;
 import com.app.beanvalidation.groups.PaymentGroup;
+import com.app.beanvalidation.model.Account;
 import com.app.beanvalidation.model.BankDetail;
 import com.app.beanvalidation.payload.EmailErrorPayload;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
@@ -40,7 +41,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // methodValidationDemo(validator);
         // constructorValidationDemo(validator);
         // customConstraintDemo(validator);
-        constraintCompositionDemo(validator);
+        // constraintCompositionDemo(validator);
+        classLevelConstraint(validator);
     }
 
     private Validator getValidator() {
@@ -253,6 +255,14 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
                 .build();
 
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void classLevelConstraint(Validator validator) {
+        // Class-level constraints allow validation across multiple fields within a class.
+        Account  account = new Account("username", "password", "passwordnotmatch");
+        // expect 1 violation because the password does not match retype password
+        Set<ConstraintViolation<Account>> constraintViolationSet = validator.validate(account);
         printConstraintViolations(constraintViolationSet);
     }
 }
