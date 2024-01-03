@@ -52,7 +52,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // crossParametersConstraint(validator);
         // customValidatorContext(validator);
         // containerDataDemo(validator);
-        valueExtractionDemo();
+        // valueExtractionDemo();
+        constraintViolationException(validator);
     }
 
     private Validator getValidator() {
@@ -355,5 +356,19 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         dataInteger.setData(1);
         constraintViolationSet = validator.validate(dataInteger);
         printConstraintViolations(constraintViolationSet);
+    }
+
+    private void constraintViolationException(Validator validator) {
+        // Normally, Bean validation would return violations
+        // But, in few cases, we could also throw exception
+        PaymentDetail paymentDetail = new PaymentDetail();
+        try {
+            Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail);
+            if (!constraintViolationSet.isEmpty()) {
+                throw new ConstraintViolationException(constraintViolationSet);
+            }
+        } catch (ConstraintViolationException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
