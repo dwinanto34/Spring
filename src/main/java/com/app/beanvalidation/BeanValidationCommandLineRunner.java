@@ -39,6 +39,7 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // payloadDemo(validator);
         // methodValidationDemo(validator);
         // constructorValidationDemo(validator);
+        customConstraintDemo(validator);
     }
 
     private Validator getValidator() {
@@ -234,6 +235,14 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // expect few validations because the bank detail, the order amount, and the order ID is null
         constraintViolationSet = executableValidator
                 .validateConstructorReturnValue(constructor, paymentDetail);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void customConstraintDemo(Validator validator) {
+        PaymentDetail paymentDetail = new PaymentDetail();
+        paymentDetail.setOrderId("lowercase");
+        // expect violation error for order ID because it is in lower case
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail);
         printConstraintViolations(constraintViolationSet);
     }
 }

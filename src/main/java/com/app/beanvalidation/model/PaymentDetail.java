@@ -14,6 +14,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Range;
+import com.app.beanvalidation.constraint.CheckCase;
+import com.app.beanvalidation.enums.CaseMode;
 
 @Data
 @Builder
@@ -26,6 +28,7 @@ public class PaymentDetail {
     @Size(max = 10, message = "The maximum length of an order ID is 10")
     // By default, if we don't specify constraint group, it will be assigned Default.class
     @NotBlank(groups = {Default.class}, message = "Order ID cannot be blank")
+    @CheckCase(mode = CaseMode.UPPER)
     private String orderId;
 
     // Other than Bean Validation, Hibernate Validator also provides additional validation constraints
