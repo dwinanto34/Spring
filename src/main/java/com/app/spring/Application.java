@@ -11,7 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(
 	scanBasePackages = {
 		"com.app.spring",
-		"com.app.springcore"
+		"com.app.springcore",
+		"com.app.beanvalidation"
 	}
 )
 
