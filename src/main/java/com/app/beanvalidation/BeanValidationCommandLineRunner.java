@@ -1,5 +1,7 @@
 package com.app.beanvalidation;
 
+import com.app.beanvalidation.groups.BankTransferPaymentGroup;
+import com.app.beanvalidation.groups.CreditCardPaymentGroup;
 import com.app.beanvalidation.model.BankDetail;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
@@ -28,7 +30,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         Validator validator = getValidator();
 
         // constraintViolationDemo(validator);
-        nestedObjectValidationDemo(validator);
+        // nestedObjectValidationDemo(validator);
+        constraintGroupDemo(validator);
     }
 
     private Validator getValidator() {
@@ -91,5 +94,29 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // expect 1 constraint violation here
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validate(validator, paymentDetail);
         printConstraintViolations(constraintViolationSet);
+    }
+
+    private void constraintGroupDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                .orderId("123")
+                .amount(111L)
+                // put an invalid credit card information
+                .creditCardNumber("invalid-credit-card-number")
+                // put an invalid bank account number
+                .bankAccountNumber(null)
+                .bankDetail(BankDetail.builder()
+                        .bankName("bank-name")
+                        .build())
+                .build();
+
+        // expect 1 constraint violation here because of invalid credit card information
+        // the second argument is not required, if we leave it empty, it will validate using Default group
+        // But if we specify a specific group class, it will validate using the specific group that we define, and won't include Default group anymore unless we do specify
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationCreditCardGroupSet = validator.validate(paymentDetail, CreditCardPaymentGroup.class);
+        printConstraintViolations(constraintViolationCreditCardGroupSet);
+
+        // expect 1 constraint violation here because of bank account number information
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationBankTransferSet = validator.validate(paymentDetail, BankTransferPaymentGroup.class);
+        printConstraintViolations(constraintViolationBankTransferSet);
     }
 }
