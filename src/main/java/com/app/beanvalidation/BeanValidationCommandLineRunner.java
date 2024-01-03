@@ -33,7 +33,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // constraintViolationDemo(validator);
         // nestedObjectValidationDemo(validator);
         // constraintGroupDemo(validator);
-        sequenceGroupDemo(validator);
+        // sequenceGroupDemo(validator);
+        conversionGroupDemo(validator);
     }
 
     private Validator getValidator() {
@@ -136,6 +137,25 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // Violations related to the amount, bank detail, and the length of the order ID will be displayed.
         // Other violations from non-Default groups won't be printed because the first sequence, Default group, already results in a violation, preventing the validation from proceeding to the next sequences.
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail, PaymentGroup.class);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void conversionGroupDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                .orderId("123")
+                .amount(111L)
+                .creditCardNumber("4111111111111111")
+                // Bank name field inside the bankDetail model is blank
+                .bankDetail(new BankDetail())
+                .build();
+
+        // Even though the bank name field is empty and violates the constraint,
+        // when validated using the CreditCardPaymentGroup class, no violations are found
+        // because the bank name field inside the bankDetail model does not implement CreditCardPaymentGroup, but implements the Default group.
+        // To obtain violations for the bank name field, there are two possible approaches:
+        // 1. Add groups information and include CreditCardPaymentGroup for the bank name in bankDetail.
+        // 2. Add a conversion from the PaymentDetail model, where the bankDetail field is converted from CreditCardPaymentGroup to Default.
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail, CreditCardPaymentGroup.class);
         printConstraintViolations(constraintViolationSet);
     }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.ConvertGroup;
 import jakarta.validation.groups.Default;
 import lombok.Builder;
 import lombok.Data;
@@ -42,5 +43,9 @@ public class PaymentDetail {
     // To enable validation for the fields inside a nested object, use the @Valid annotation.
     @Valid
     @NotNull(groups = {Default.class}, message = "Bank detail cannot be null")
+    // Converts the validation group from CreditCardPaymentGroup to Default.
+    // When inside the bankDetail, the validation group is converted into the Default group.
+    // @ConvertGroup annotation is used to specify this conversion during the validation process.
+    @ConvertGroup(from = CreditCardPaymentGroup.class, to = Default.class)
     private BankDetail bankDetail;
 }
