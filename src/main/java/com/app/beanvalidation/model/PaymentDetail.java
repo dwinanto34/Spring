@@ -1,5 +1,6 @@
 package com.app.beanvalidation.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,4 +29,10 @@ public class PaymentDetail {
     @NotNull(message = "Credit card number cannot be blank")
     @CreditCardNumber(message = "Invalid credit card number")
     private String creditCardNumber;
+
+    // By default, Bean Validation won't automatically validate the fields within a nested object.
+    // To enable validation for the fields inside a nested object, use the @Valid annotation.
+    @Valid
+    @NotNull(message = "Bank detail cannot be null")
+    private BankDetail bankDetail;
 }

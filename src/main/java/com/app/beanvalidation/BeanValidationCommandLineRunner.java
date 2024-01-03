@@ -1,5 +1,6 @@
 package com.app.beanvalidation;
 
+import com.app.beanvalidation.model.BankDetail;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
 import jakarta.validation.ConstraintViolation;
@@ -26,7 +27,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Validator validator = getValidator();
 
-        constraintViolationDemo(validator);
+        // constraintViolationDemo(validator);
+        nestedObjectValidationDemo(validator);
     }
 
     private Validator getValidator() {
@@ -73,6 +75,20 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
                 .build();
 
         // expect 3 constraint violations here
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validate(validator, paymentDetail);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void nestedObjectValidationDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                .orderId("123")
+                .amount(111L)
+                .creditCardNumber("4111111111111111")
+                // Bank name field inside the bankDetail model is blank
+                .bankDetail(new BankDetail())
+                .build();
+
+        // expect 1 constraint violation here
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validate(validator, paymentDetail);
         printConstraintViolations(constraintViolationSet);
     }
