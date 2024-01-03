@@ -39,7 +39,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // payloadDemo(validator);
         // methodValidationDemo(validator);
         // constructorValidationDemo(validator);
-        customConstraintDemo(validator);
+        // customConstraintDemo(validator);
+        constraintCompositionDemo(validator);
     }
 
     private Validator getValidator() {
@@ -242,6 +243,15 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         PaymentDetail paymentDetail = new PaymentDetail();
         paymentDetail.setOrderId("lowercase");
         // expect violation error for order ID because it is in lower case
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail);
+        printConstraintViolations(constraintViolationSet);
+    }
+
+    private void constraintCompositionDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                .orderStatus("status_is_too_long_and_in_lower_case")
+                .build();
+
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail);
         printConstraintViolations(constraintViolationSet);
     }

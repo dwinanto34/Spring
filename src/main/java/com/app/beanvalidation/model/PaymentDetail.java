@@ -1,5 +1,6 @@
 package com.app.beanvalidation.model;
 
+import com.app.beanvalidation.constraint.CheckPaymentStatus;
 import com.app.beanvalidation.groups.BankTransferPaymentGroup;
 import com.app.beanvalidation.groups.CreditCardPaymentGroup;
 import jakarta.validation.Valid;
@@ -59,6 +60,9 @@ public class PaymentDetail {
     // @ConvertGroup annotation is used to specify this conversion during the validation process.
     @ConvertGroup(from = CreditCardPaymentGroup.class, to = Default.class)
     private BankDetail bankDetail;
+
+    @CheckPaymentStatus
+    private String orderStatus;
 
     public void printName(@NotBlank(message = "Name argument cannot be blank") String name) {
         System.out.println("Do something:" + name);
