@@ -2,6 +2,7 @@ package com.app.beanvalidation;
 
 import com.app.beanvalidation.groups.BankTransferPaymentGroup;
 import com.app.beanvalidation.groups.CreditCardPaymentGroup;
+import com.app.beanvalidation.groups.PaymentGroup;
 import com.app.beanvalidation.model.BankDetail;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
@@ -31,7 +32,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
 
         // constraintViolationDemo(validator);
         // nestedObjectValidationDemo(validator);
-        constraintGroupDemo(validator);
+        // constraintGroupDemo(validator);
+        sequenceGroupDemo(validator);
     }
 
     private Validator getValidator() {
@@ -118,5 +120,22 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // expect 1 constraint violation here because of bank account number information
         Set<ConstraintViolation<PaymentDetail>> constraintViolationBankTransferSet = validator.validate(paymentDetail, BankTransferPaymentGroup.class);
         printConstraintViolations(constraintViolationBankTransferSet);
+    }
+
+    private void sequenceGroupDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                // The maximum length of an order ID is 10
+                .orderId("ABCDEFHGIJKLMNOPQRSTUVWXYZ")
+                // Amount must be between 100 and 10,000
+                .amount(1L)
+                // Invalid credit card number
+                .creditCardNumber("invalid-credit-card-number")
+                .build();
+
+        // Only print violations from the Default group.
+        // Violations related to the amount, bank detail, and the length of the order ID will be displayed.
+        // Other violations from non-Default groups won't be printed because the first sequence, Default group, already results in a violation, preventing the validation from proceeding to the next sequences.
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail, PaymentGroup.class);
+        printConstraintViolations(constraintViolationSet);
     }
 }
