@@ -8,10 +8,12 @@ import com.app.beanvalidation.payload.EmailErrorPayload;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
 import jakarta.validation.*;
+import jakarta.validation.executable.ExecutableValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 
 @Component
@@ -33,7 +35,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // constraintGroupDemo(validator);
         // sequenceGroupDemo(validator);
         // conversionGroupDemo(validator);
-        payloadDemo(validator);
+        // payloadDemo(validator);
+        methodValidationDemo(validator);
     }
 
     private Validator getValidator() {
@@ -177,5 +180,34 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
                 }
             }
         }
+    }
+
+    private void methodValidationDemo(Validator validator) throws NoSuchMethodException {
+        ExecutableValidator executableValidator = validator.forExecutables();
+        PaymentDetail paymentDetail;
+        Method method;
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet;
+
+        // 1. Validate the printName method with an empty name argument
+        paymentDetail = new PaymentDetail();
+        method = paymentDetail.getClass().getMethod("printName", String.class);
+        String name = "";
+
+        // expect 1 violation because the name argument is an empty string
+        constraintViolationSet = executableValidator
+                .validateParameters(paymentDetail, method, new Object[]{name});
+        printConstraintViolations(constraintViolationSet);
+
+        // 2. Validate the return value of a method
+        paymentDetail = PaymentDetail.builder()
+                .amount(1L)
+                .build();
+        method = paymentDetail.getClass().getMethod("calculateFee");
+        Long fee = paymentDetail.calculateFee();
+
+        // expect 1 violation because the fee response is 2, which is not between 10 and 100
+        constraintViolationSet = executableValidator
+                .validateReturnValue(paymentDetail, method, fee);
+        printConstraintViolations(constraintViolationSet);
     }
 }

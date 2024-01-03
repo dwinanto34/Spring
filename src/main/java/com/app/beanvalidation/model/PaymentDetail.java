@@ -8,13 +8,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.ConvertGroup;
 import jakarta.validation.groups.Default;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Range;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PaymentDetail {
     // Bean validation already provides a lot of common validation constraints that we could use
     // Like NotBlank, NotNull, Size, etc
@@ -48,4 +52,13 @@ public class PaymentDetail {
     // @ConvertGroup annotation is used to specify this conversion during the validation process.
     @ConvertGroup(from = CreditCardPaymentGroup.class, to = Default.class)
     private BankDetail bankDetail;
+
+    public void printName(@NotBlank(message = "Name argument cannot be blank") String name) {
+        System.out.println("Do something:" + name);
+    }
+
+    @Range(min = 10, max = 100, message = "Fee amount reponse must between 10 and 100")
+    public Long calculateFee() {
+        return amount + 1;
+    }
 }
