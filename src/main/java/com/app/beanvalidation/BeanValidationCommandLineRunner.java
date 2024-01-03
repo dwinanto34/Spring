@@ -4,12 +4,10 @@ import com.app.beanvalidation.groups.BankTransferPaymentGroup;
 import com.app.beanvalidation.groups.CreditCardPaymentGroup;
 import com.app.beanvalidation.groups.PaymentGroup;
 import com.app.beanvalidation.model.BankDetail;
+import com.app.beanvalidation.payload.EmailErrorPayload;
 import com.app.beanvalidation.validator.ValidatorFactorySingleton;
 import com.app.beanvalidation.model.PaymentDetail;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Valid;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -34,7 +32,8 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // nestedObjectValidationDemo(validator);
         // constraintGroupDemo(validator);
         // sequenceGroupDemo(validator);
-        conversionGroupDemo(validator);
+        // conversionGroupDemo(validator);
+        payloadDemo(validator);
     }
 
     private Validator getValidator() {
@@ -157,5 +156,26 @@ public class BeanValidationCommandLineRunner implements CommandLineRunner {
         // 2. Add a conversion from the PaymentDetail model, where the bankDetail field is converted from CreditCardPaymentGroup to Default.
         Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail, CreditCardPaymentGroup.class);
         printConstraintViolations(constraintViolationSet);
+    }
+
+    private void payloadDemo(Validator validator) {
+        PaymentDetail paymentDetail = PaymentDetail.builder()
+                .orderId("123")
+                .amount(111L)
+                .creditCardNumber("4111111111111111")
+                // Bank name field inside the bankDetail model is blank
+                .bankDetail(new BankDetail())
+                .build();
+
+        Set<ConstraintViolation<PaymentDetail>> constraintViolationSet = validator.validate(paymentDetail, CreditCardPaymentGroup.class);
+        for (ConstraintViolation<PaymentDetail> paymentDetailConstraintViolation : constraintViolationSet) {
+            Set<Class<? extends Payload>> payloadClassSet = paymentDetailConstraintViolation.getConstraintDescriptor().getPayload();
+            for(Class<? extends Payload> aClass : payloadClassSet) {
+                if (aClass == EmailErrorPayload.class) {
+                    EmailErrorPayload errorPayload = new EmailErrorPayload();
+                    errorPayload.sendEmail(paymentDetailConstraintViolation);
+                }
+            }
+        }
     }
 }
