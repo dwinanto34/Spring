@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 // @DisplayName("Test for Calculator class")
 // 2. Using Display Name Generator
 @DisplayNameGeneration(SimpleDisplayNameGenerator.class)
+// The @Tags annotation provides flexibility in test execution, allowing us to selectively run tests based on specified tags.
+@Tags({
+    @Tag("calculator-test")
+})
 public class CalculatorTest {
     private Calculator calculator = new Calculator();
 
