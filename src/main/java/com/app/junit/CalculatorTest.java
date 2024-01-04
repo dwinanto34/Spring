@@ -47,6 +47,8 @@ public class CalculatorTest {
     }
 
     @Test
+    // To disable particular scenario test
+    @Disabled
     public void testDivideSuccess() {
         System.out.println("Running testDivideSuccess");
         var result = calculator.divide(20, 5);
