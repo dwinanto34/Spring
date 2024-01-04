@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 // DisplayName could be defined on class, and method
 // There are 2 ways to define DisplayName
@@ -61,5 +62,12 @@ public class CalculatorTest {
         assertThrows(IllegalArgumentException.class, () -> {
             calculator.divide(10, 0);
         });
+    }
+
+    @Test
+    public void testAssumptions() {
+        String env = "PRODUCTION";
+        // will throw TestAbortedException and aborting test after that
+        assumeFalse("PRODUCTION".equals(env));
     }
 }
