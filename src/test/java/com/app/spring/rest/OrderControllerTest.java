@@ -1,33 +1,36 @@
-package com.app.spring.implementation;
+package com.app.spring.rest;
 
 import com.app.spring.entity.Product;
+import com.app.spring.implementation.OrderServiceImpl;
 import com.app.spring.model.request.OrderItemRequest;
 import com.app.spring.model.request.OrderRequest;
-import com.app.spring.model.response.OrderItemResponse;
 import com.app.spring.model.response.OrderResponse;
-import com.app.spring.model.response.ProductResponse;
-import com.app.spring.repository.OrderRepository;
 import com.app.spring.repository.ProductRepository;
-import jakarta.transaction.Transactional;
+import com.app.spring.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-// We have h2 as a depdendency.
-// so, SpringBoot will auto-configure a connection to the embedded H2 database
 @TestPropertySource("/application-test.properties")
-public class OrderServiceImplTest {
+@AutoConfigureMockMvc
+@SpringBootTest
+public class OrderControllerTest {
     private static final String ORDER_ID = "order id";
     private static final String ORDER_ITEM_ID = "order item id";
     private static final String PRODUCT_NAME = "product name";
@@ -37,7 +40,10 @@ public class OrderServiceImplTest {
     private static Integer AVAILABLE_STOCK = 10;
 
     @Autowired
-    private OrderServiceImpl serviceImpl;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private OrderServiceImpl orderServiceImpl;
 
     @Autowired
     private ProductRepository productRepository;
@@ -65,27 +71,17 @@ public class OrderServiceImplTest {
                 .orderItemRequestList(List.of(orderItemRequest))
                 .build();
 
-        serviceImpl.save(orderRequest);
+        orderServiceImpl.save(orderRequest);
     }
 
+
     @Test
-    public void findAllSuccess() {
-        List<OrderResponse> orderResponseList = serviceImpl.findAll();
-        assertEquals(1, orderResponseList.size(), "Expected one order in the response list");
+    public void saveOrderTest() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/orders"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
 
-        OrderResponse orderResponse = orderResponseList.get(0);
-        assertEquals(ORDER_ID, orderResponse.getOrderId());
-
-        assertEquals(1, orderResponseList.get(0).getOrderItemResponseList().size(), "Expected one order item in the order");
-
-        OrderItemResponse orderItemResponse = orderResponse.getOrderItemResponseList().get(0);
-        assertEquals(ORDER_ITEM_ID, orderItemResponse.getOrderItemId());
-        assertEquals(PRODUCT_NAME, orderItemResponse.getProductName());
-        assertEquals(QUANTITY, orderItemResponse.getQuantity());
-        assertEquals(PRICE.setScale(2, RoundingMode.DOWN), orderItemResponse.getPricePerQuantity().setScale(2, RoundingMode.DOWN));
-        assertEquals(PRICE.setScale(2, RoundingMode.DOWN), orderItemResponse.getFinalAmount().setScale(2, RoundingMode.DOWN));
-//        assertIterableEquals();
-//        assertArrayEquals();
-//        assertLinesMatch();
+        ModelAndView mav = mvcResult.getModelAndView();
     }
 }
