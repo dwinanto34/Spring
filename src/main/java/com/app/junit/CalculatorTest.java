@@ -5,6 +5,8 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 // DisplayName could be defined on class, and method
 // There are 2 ways to define DisplayName
@@ -71,11 +73,21 @@ public class CalculatorTest {
     }
 
     @Test
+    // To disable particular scenario test
+    @Disabled
     public void testDivideFailed() {
         System.out.println("Running testDivideFailed");
         // assertThrows is used for assert our exception expectation with the actual exception
         assertThrows(IllegalArgumentException.class, () -> {
             calculator.divide(10, 0);
         });
+    }
+
+    @Test
+    public void testAssumptions() {
+        String env = "PRODUCTION";
+        // will throw TestAbortedException and aborting test after that
+        assumeFalse("PRODUCTION".equals(env));
+        assumeTrue(!"PRODUCTION".equals(env));
     }
 }
