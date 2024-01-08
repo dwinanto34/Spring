@@ -99,3 +99,9 @@ This repository serves as a comprehensive demonstration of key features and func
 6. [**Execution Order**](https://github.com/dwinanto34/Spring/commit/1b0bd85047b5ba3711df85e8dfdcfa411ac1bb87)
 7. [**Parameterized test**](https://github.com/dwinanto34/Spring/commit/a77b09d220aae76f07ab30ddc25683f7298a9e81)
 8. [**Mockito**](https://github.com/dwinanto34/Spring/commit/d329d2cc7c638e9c6294f6b5557bda0849e4e190)
+
+## Unit test
+
+1. [**Unit test for service level**](https://github.com/dwinanto34/Spring/commit/3ed7fd425d137753e88279688e5737c8991d6eb0)
+2. [**Unit test for controller level**](https://github.com/dwinanto34/Spring/commit/461033c7e625c3862463273255728626b5c8d1cf)
+
