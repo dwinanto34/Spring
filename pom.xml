@@ -113,6 +113,13 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>5.8.0</version>
 		</dependency>
+<!--		H2 database is an in-memory database for integration tests. -->
+<!--		Without an in-memory database, the data from integration test could affect the actual database. -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 <!--	Plug-ins-->
