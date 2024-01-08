@@ -23,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping()
-    public List<OrderResponse> getProducts() {
+    public List<OrderResponse> getOrders() {
         return orderService.findAll();
     }
 
