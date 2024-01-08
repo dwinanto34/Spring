@@ -2,6 +2,8 @@ package com.app.junit;
 
 import com.app.junit.generator.SimpleDisplayNameGenerator;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -93,5 +95,17 @@ public class CalculatorTest {
         // will throw TestAbortedException and aborting test after that
         assumeFalse("PRODUCTION".equals(env));
         assumeTrue(!"PRODUCTION".equals(env));
+    }
+
+    @DisplayName("Parameterized test for calculator")
+    @ParameterizedTest(name = "{displayName} with data {0}")
+    // ParameterizedTest supports several value source:
+    // @ValueSource, @EnumSource, @MethodSource, @CsvSource, @CsvFileSource, @ArgumentSource
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 45, 34, 56})
+    public void testParameterized(int value) {
+        var expected = value + value;
+
+        var result = calculator.add(value, value);
+        assertEquals(expected, result);
     }
 }
