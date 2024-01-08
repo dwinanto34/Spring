@@ -1,10 +1,17 @@
 package com.app.junit;
 
+import com.app.junit.generator.SimpleDisplayNameGenerator;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+// DisplayName could be defined on class, and method
+// There are 2 ways to define DisplayName
+// 1. Manual define the DisplayName
+// @DisplayName("Test for Calculator class")
+// 2. Using Display Name Generator
+@DisplayNameGeneration(SimpleDisplayNameGenerator.class)
 public class CalculatorTest {
     private Calculator calculator = new Calculator();
 
@@ -46,6 +53,9 @@ public class CalculatorTest {
     }
 
     @Test
+    // Manual defined DisplayName has higher priority
+    // and will overwrite the DisplayNameGenerator
+    @DisplayName("Test scenario for method add(Integer, Integer)")
     public void testAddSuccess() {
         System.out.println("Running testAddSuccess");
         var result = calculator.add(10, 10);
