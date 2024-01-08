@@ -105,3 +105,7 @@ This repository serves as a comprehensive demonstration of key features and func
 1. [**Unit test for service level**](https://github.com/dwinanto34/Spring/commit/3ed7fd425d137753e88279688e5737c8991d6eb0)
 2. [**Unit test for controller level**](https://github.com/dwinanto34/Spring/commit/461033c7e625c3862463273255728626b5c8d1cf)
 
+## Integration test
+
+1. [**Integration test for order feature**](https://github.com/dwinanto34/Spring/commit/f6c442ccff59db30e96d9add48ad080dfec8529a)
+
