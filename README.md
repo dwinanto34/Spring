@@ -88,3 +88,14 @@ This repository serves as a comprehensive demonstration of key features and func
 14. [**Value Extractor Implementation**](https://github.com/dwinanto34/Spring/commit/07aac40b1be7008c35d0d91bf318ef4c09337670)
 15. [**Constraint Violation Exception Handling**](https://github.com/dwinanto34/Spring/commit/ffe2cf0fd979a94daeb1d74fab54c89e10808d9c)
 16. [**Metadata Usage**](https://github.com/dwinanto34/Spring/commit/5a46480bc6c928eccfe6131a71a8fa2154bf80cb)
+
+## JUnit
+
+1. [**Basic and Assertions**](https://github.com/dwinanto34/Spring/commit/4802788f8c71ea32263d68affadccbea4104ce93)
+2. [**Lifecycle**](https://github.com/dwinanto34/Spring/commit/980d55e2096a8f9c596da8ad4d9d3db7140a31a6)
+3. [**Display Name**](https://github.com/dwinanto34/Spring/commit/13a8ee429a27992336d019ec00fe321349c6d4d2)
+4. [**Disable and Abort tests**](https://github.com/dwinanto34/Spring/commit/8506e4c4d5a6f3adaefd8ecc4a31a70a42fa065d)
+5. [**Tags**](https://github.com/dwinanto34/Spring/commit/e0e353e94af6e0c5045e3241a296ff00baf2ff62)
+6. [**Execution Order**](https://github.com/dwinanto34/Spring/commit/1b0bd85047b5ba3711df85e8dfdcfa411ac1bb87)
+7. [**Parameterized test**](https://github.com/dwinanto34/Spring/commit/a77b09d220aae76f07ab30ddc25683f7298a9e81)
+8. [**Mockito**](https://github.com/dwinanto34/Spring/commit/d329d2cc7c638e9c6294f6b5557bda0849e4e190)
