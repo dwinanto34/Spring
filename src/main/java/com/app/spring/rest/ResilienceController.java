@@ -1,7 +1,6 @@
 package com.app.spring.rest;
 
 import com.app.spring.resilience.*;
-import io.github.resilience4j.decorators.Decorators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +15,7 @@ public class ResilienceController {
     private TimeLimiterDemo timeLimiterDemo;
     private CircuitBreakerDemo circuitBreakerDemo;
     private DecoratorsDemo decoratorsDemo;
+    private EventPublisherDemo eventPublisherDemo;
 
     @Autowired
     public ResilienceController(
@@ -24,7 +24,8 @@ public class ResilienceController {
             BulkHeadDemo bulkHeadDemo,
             TimeLimiterDemo timeLimiterDemo,
             CircuitBreakerDemo circuitBreakerDemo,
-            DecoratorsDemo decoratorsDemo
+            DecoratorsDemo decoratorsDemo,
+            EventPublisherDemo eventPublisherDemo
     ) {
         this.retryDemo = retryDemo;
         this.rateLimiterDemo = rateLimiterDemo;
@@ -32,6 +33,7 @@ public class ResilienceController {
         this.timeLimiterDemo = timeLimiterDemo;
         this.circuitBreakerDemo = circuitBreakerDemo;
         this.decoratorsDemo = decoratorsDemo;
+        this.eventPublisherDemo = eventPublisherDemo;
     }
 
     @GetMapping()
@@ -60,6 +62,9 @@ public class ResilienceController {
         // Decorators: Combining more than one module
         // Note: TimeLimiter cannot be combined with other modules
         // decoratorsDemo.decorators();
+
+        // Event publisher: Event handling for Registry and Resilience4J module
+        // eventPublisherDemo.eventPublisher();
 
         return "resilience";
     }
