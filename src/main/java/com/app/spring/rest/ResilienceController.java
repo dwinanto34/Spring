@@ -1,5 +1,6 @@
 package com.app.spring.rest;
 
+import com.app.spring.resilience.RateLimiterDemo;
 import com.app.spring.resilience.RetryDemo;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
@@ -16,10 +17,15 @@ import java.util.function.Supplier;
 @RequestMapping("/resilience")
 public class ResilienceController {
     private RetryDemo retryDemo;
+    private RateLimiterDemo rateLimiterDemo;
 
     @Autowired
-    public ResilienceController(RetryDemo retryDemo) {
+    public ResilienceController(
+            RetryDemo retryDemo,
+            RateLimiterDemo rateLimiterDemo
+    ) {
         this.retryDemo = retryDemo;
+        this.rateLimiterDemo = rateLimiterDemo;
     }
 
     @GetMapping()
@@ -31,6 +37,10 @@ public class ResilienceController {
         // For method that returns a response:
         // retryDemo.retrySupplier();
 
+        // Feature 2: RATE LIMITER -- Limits requests within a specific time range.
+        // For example, if the maximum is set to 100 requests per minute, the 101st request will be denied.
+        // rateLimiterDemo.rateLimiter();
+        
         return "resilience";
     }
 }
