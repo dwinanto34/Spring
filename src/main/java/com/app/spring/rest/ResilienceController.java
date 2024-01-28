@@ -1,31 +1,29 @@
 package com.app.spring.rest;
 
+import com.app.spring.resilience.BulkHeadDemo;
 import com.app.spring.resilience.RateLimiterDemo;
 import com.app.spring.resilience.RetryDemo;
-import io.github.resilience4j.retry.Retry;
-import io.github.resilience4j.retry.RetryConfig;
-import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Duration;
-import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/resilience")
 public class ResilienceController {
     private RetryDemo retryDemo;
     private RateLimiterDemo rateLimiterDemo;
+    private BulkHeadDemo bulkHeadDemo;
 
     @Autowired
     public ResilienceController(
             RetryDemo retryDemo,
-            RateLimiterDemo rateLimiterDemo
+            RateLimiterDemo rateLimiterDemo,
+            BulkHeadDemo bulkHeadDemo
     ) {
         this.retryDemo = retryDemo;
         this.rateLimiterDemo = rateLimiterDemo;
+        this.bulkHeadDemo = bulkHeadDemo;
     }
 
     @GetMapping()
@@ -40,7 +38,11 @@ public class ResilienceController {
         // Feature 2: RATE LIMITER -- Limits requests within a specific time range.
         // For example, if the maximum is set to 100 requests per minute, the 101st request will be denied.
         // rateLimiterDemo.rateLimiter();
-        
+
+        // Feature 3: BULK HEAD -- Limits the number of concurrent requests
+        // bulkHeadDemo.bulkHeadSemaphore();
+        // bulkHeadDemo.bulkHeadThreadPool();
+
         return "resilience";
     }
 }
