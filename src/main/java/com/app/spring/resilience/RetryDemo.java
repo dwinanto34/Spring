@@ -31,6 +31,12 @@ public class RetryDemo {
         Retry retry = retryRegistry.retry("demo", ResilienceRetryConfig.REGISTRY_CONFIG_NAME);
         Runnable runnable = Retry.decorateRunnable(retry, () -> calculate());
         runnable.run();
+
+        // Get metric data from Retry
+        long failedCallsWithoutRetryAttempt = retry.getMetrics().getNumberOfFailedCallsWithoutRetryAttempt();
+        long failedCallsWithRetryAttempt = retry.getMetrics().getNumberOfFailedCallsWithRetryAttempt();
+        long successfulCallsWithoutRetryAttempt = retry.getMetrics().getNumberOfSuccessfulCallsWithoutRetryAttempt();
+        long successfulCallsWithRetryAttempt = retry.getMetrics().getNumberOfSuccessfulCallsWithRetryAttempt();
     }
 
     private void calculate() {
