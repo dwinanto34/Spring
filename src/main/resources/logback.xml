@@ -1,0 +1,66 @@
+<configuration>
+
+    <!-- Console logger that prints logs to System.out -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{requestId}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File logger that prints logs to a log file -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- Creates a new log file called 'application.log' -->
+        <!-- All new logs will be appended to the log file -->
+        <file>application.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Archives logs older or equal to yesterday with the specified format -->
+            <fileNamePattern>application-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <!-- Each log file has a maximum size of 100 MB -->
+            <!-- When it exceeds 100 MB, it creates a new log file with an incremented counter -->
+            <!-- Example: application-2024-01-01.01.log, application-2024-01-01.02.log, ... -->
+
+            <maxFileSize>100MB</maxFileSize>
+
+            <!-- Keeps up to 60 log files or 20GB -->
+            <!-- When either condition is true, the oldest log files are removed -->
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- Encoder pattern defines the log format to be printed -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{requestId}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Encoder pattern defines the log format to be printed -->
+    <!-- level is flexible for modification -->
+    <root level="error">
+        <!-- Refers to the CONSOLE appender defined above -->
+        <appender-ref ref="CONSOLE" />
+
+        <!-- Refers to the FILE appender defined above -->
+        <appender-ref ref="FILE" />
+
+        <!-- Note: Additional appenders such as DBAppender, OutputStreamAppender, SMTPAppender are available -->
+    </root>
+
+
+    <!-- Below here, we will experiment with printing logs to specific files based on their package -->
+
+    <!-- File appender specifically for controller logs -->
+    <appender name="CONTROLLER_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>controller.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{requestId}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Logger configuration for the 'com.app.spring.rest' package -->
+    <!-- All logs that occur inside this package will be printed to the CONTROLLER_FILE appender -->
+    <logger name="com.app.spring.rest" level="debug">
+        <appender-ref ref="CONTROLLER_FILE" />
+    </logger>
+</configuration>
