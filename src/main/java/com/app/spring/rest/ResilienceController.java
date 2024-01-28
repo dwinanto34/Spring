@@ -1,9 +1,6 @@
 package com.app.spring.rest;
 
-import com.app.spring.resilience.BulkHeadDemo;
-import com.app.spring.resilience.RateLimiterDemo;
-import com.app.spring.resilience.RetryDemo;
-import com.app.spring.resilience.TimeLimiterDemo;
+import com.app.spring.resilience.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,18 +13,21 @@ public class ResilienceController {
     private RateLimiterDemo rateLimiterDemo;
     private BulkHeadDemo bulkHeadDemo;
     private TimeLimiterDemo timeLimiterDemo;
+    private CircuitBreakerDemo circuitBreakerDemo;
 
     @Autowired
     public ResilienceController(
             RetryDemo retryDemo,
             RateLimiterDemo rateLimiterDemo,
             BulkHeadDemo bulkHeadDemo,
-            TimeLimiterDemo timeLimiterDemo
+            TimeLimiterDemo timeLimiterDemo,
+            CircuitBreakerDemo circuitBreakerDemo
     ) {
         this.retryDemo = retryDemo;
         this.rateLimiterDemo = rateLimiterDemo;
         this.bulkHeadDemo = bulkHeadDemo;
         this.timeLimiterDemo = timeLimiterDemo;
+        this.circuitBreakerDemo = circuitBreakerDemo;
     }
 
     @GetMapping()
@@ -49,6 +49,9 @@ public class ResilienceController {
 
         // Feature 4: TIME LIMITER -- Limits the timeout of a thread execution
         // timeLimiterDemo.timeLimiter();
+
+        // Feature 5: CIRCUIT BREAKER -- A resilience pattern that monitors failures
+        // circuitBreakerDemo.circuitBreaker();
 
         return "resilience";
     }
