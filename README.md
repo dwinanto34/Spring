@@ -109,3 +109,19 @@ This repository serves as a comprehensive demonstration of key features and func
 
 1. [**Integration test for order feature**](https://github.com/dwinanto34/Spring/commit/f6c442ccff59db30e96d9add48ad080dfec8529a)
 
+## Java logging
+
+1. [**Java logging with SLF4J**](https://github.com/dwinanto34/Spring/commit/169b2eb49c99ef89767d2822485ca449ce46831e)
+
+## Java Resilience4J
+
+1. [**Maven Dependencies**](https://github.com/dwinanto34/Spring/commit/77f2c4b4d236d78e12c555127168fc0f854d85db)
+2. [**Retry**](https://github.com/dwinanto34/Spring/commit/1649422b466e0ee054b212f8e01a808c33f447a3)
+3. [**Rate Limiter**](https://github.com/dwinanto34/Spring/commit/1ca767074895c9724965c92f40352556090debc7)
+4. [**Bulk Head**](https://github.com/dwinanto34/Spring/commit/47344e6b6dab4d3dcc4aea7a2d03efd8870451d7)
+5. [**Time Limiter**](https://github.com/dwinanto34/Spring/commit/0c98167729730beed236b6ff97a21ac6e9ccb101)
+6. [**Circuit Breaker**](https://github.com/dwinanto34/Spring/commit/ebe0713032fe4b92950428d4375fe625df98b477)
+7. [**Metric Data**](https://github.com/dwinanto34/Spring/commit/20ec3fe0ca8da8845fe559b11ece0a6c432fa85f)
+8. [**Decorators**](https://github.com/dwinanto34/Spring/commit/4c470cc65cc2a1e1e8ed9493df45a1645647fd6a)
+9. [**Event Publisher**](https://github.com/dwinanto34/Spring/commit/caedbcca4128bde12a022d5da06218863b4a96f0)
+
